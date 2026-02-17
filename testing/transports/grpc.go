@@ -15,7 +15,7 @@ type GRPCServer struct {
 	test grpctransport.Handler
 }
 
-func NewGRPCServer(endpoints endpoint.EndpointSetup, test grpctransport.Handler) testing.TestingServiceServer {
+func NewGRPCServer(endpoints endpoint.EndpointSetup) testing.TestingServiceServer {
 	options := []grpctransport.ServerOption{
 		grpctransport.ServerBefore(decode.GRPCParams),
 	}

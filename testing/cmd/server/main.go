@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"net"
+	"net/http"
+	httpCaller "net/http"
 	"os"
 
 	"github.com/go-kit/kit/log/level"
@@ -22,9 +24,12 @@ func main() {
 	var (
 		grpcServer *grpc.Server
 
-		service     = service.NewService(logger)
-		endpoints   = endpoint.NewEndpointSetup(service, logger)
-		grpcHandler = transports.NewGRPCServer(*endpoints, nil)
+		svc         = service.NewService(logger)
+		endpoints   = endpoint.NewEndpointSetup(svc, logger)
+		grpcHandler = transports.NewGRPCServer(*endpoints)
+		httpHandler = transports.NewHTTPServer(*endpoints, logger)
+
+		httpServer *httpCaller.Server
 	)
 
 	grpcServer = grpc.NewServer()
@@ -48,5 +53,29 @@ func main() {
 			grpcServer.GracefulStop()
 		})
 	}
+	{
+		httpListener, err := net.Listen("tcp", cfg.HttpAddr)
+		if err != nil {
+			level.Error(logger).Log("msg", "failed to listen on http address", "err", err)
+			os.Exit(1)
+		}
 
+		g.Add(func() error {
+			strip := http.StripPrefix("/api", httpHandler)
+
+			httpServer = &httpCaller.Server{
+				Handler: strip,
+			}
+
+			return httpServer.Serve(httpListener)
+		}, func(error) {
+			level.Error(logger).Log("msg", "failed to listen on http address", "err", err)
+		})
+	}
+
+	level.Info(logger).Log("msg", "starting servers")
+	if err := g.Run(); err != nil {
+		level.Error(logger).Log("msg", "servers failed", "err", err)
+		os.Exit(1)
+	}
 }

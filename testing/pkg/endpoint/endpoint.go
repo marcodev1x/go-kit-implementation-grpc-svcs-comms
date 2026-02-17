@@ -7,7 +7,6 @@ import (
 	"github.com/go-kit/log"
 	"github.com/marco-kit/kit-home-service/pkg/pb/protocols/testing/testing"
 	"github.com/testing/pkg/service"
-	"github.com/testing/store"
 )
 
 type EndpointSetup struct {
@@ -17,6 +16,7 @@ type EndpointSetup struct {
 func NewEndpointSetup(s service.Service, logger log.Logger) *EndpointSetup {
 	var testEndpoint endpoint.Endpoint
 	{
+		testEndpoint = MakeTestEndpoint(s)
 		logger.Log("Endpoint value", "ok")
 	}
 
@@ -27,7 +27,7 @@ func NewEndpointSetup(s service.Service, logger log.Logger) *EndpointSetup {
 
 func MakeTestEndpoint(s service.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
-		r := request.(*store.Test)
+		r := request.(*testing.TestRequest)
 		rpcRequest := &testing.TestRequest{
 			Name: r.Name,
 		}

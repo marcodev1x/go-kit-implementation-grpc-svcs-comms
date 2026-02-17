@@ -11,13 +11,15 @@ import (
 type Cfg struct {
 	Debug    bool
 	GRPCAddr string
+	HttpAddr string
 }
 
 func HandleCfg() *Cfg {
 	cfg := Cfg{}
 
 	flag.BoolVar(&cfg.Debug, "debug", true, "Enable Debug into the server")
-	flag.StringVar(&cfg.GRPCAddr, "grpc-addr", ":9090", "GRPC address to listen on")
+	flag.StringVar(&cfg.GRPCAddr, "grpc-addr", ":9091", "GRPC address to listen on")
+	flag.StringVar(&cfg.HttpAddr, "http-addr", ":8081", "HTTP address to listen on")
 
 	return &cfg
 }

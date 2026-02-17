@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-kit/log"
 	"github.com/marco-kit/kit-home-service/pkg/pb/protocols/testing/testing"
@@ -22,6 +23,8 @@ func NewService(logger log.Logger) Service {
 }
 
 func (s *service) Test(ctx context.Context, request *testing.TestRequest) (*testing.TestResponse, error) {
+	fmt.Println(ctx)
+
 	return &testing.TestResponse{
 		Message: "Hello " + request.Name,
 	}, nil
