@@ -1,8 +1,10 @@
-module github.com/marco-kit/kit-home-service
+module github.com/project-pncp/private-kit
 
 go 1.24.4
 
 require (
+	github.com/go-kit/kit v0.13.0
+	github.com/go-kit/log v0.2.1
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.65.0
 	google.golang.org/grpc v1.78.0
 	google.golang.org/protobuf v1.36.11
@@ -10,6 +12,7 @@ require (
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect

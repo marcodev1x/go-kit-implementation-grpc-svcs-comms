@@ -9,8 +9,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func Testing() grpc.ClientConnInterface {
-	return dial(dialAddress("TESTING_HOST"))
+func Pncp() grpc.ClientConnInterface {
+	return dial(dialAddress("PNCP_HOST"))
 }
 
 func dial(host string) grpc.ClientConnInterface {
