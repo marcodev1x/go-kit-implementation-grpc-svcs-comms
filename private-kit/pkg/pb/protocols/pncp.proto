@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package pncp;
-option go_package = "./pncp";
+option go_package = "github.com/project-pncp/private-kit/pkg/pb/protocols/pncp/pncp";
 
 message PncpRequest {
   string name = 1;
@@ -12,5 +12,5 @@ message PncpResponse {
 }
 
 service PncpService {
-  rpc Pncp(PncpRequest) returns (PncpResponse);
+  rpc Pncp(PncpRequest) returns (PncpResponse) {}
 }
